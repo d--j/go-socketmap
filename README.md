@@ -1,2 +1,2 @@
 # go-socketmap
-Sendmail socketmap protocol server and client in pure go
+Sendmail socketmap protocol server in pure go

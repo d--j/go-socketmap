@@ -87,3 +87,90 @@ func Test_read(t *testing.T) {
 		})
 	}
 }
+
+func TestPermanentError_Error(t *testing.T) {
+	e := PermanentError{
+		Reason: "reason",
+	}
+	if got := e.Error(); got != "permanent error: reason" {
+		t.Errorf("Error() = %v, want %v", got, "permanent error: reason")
+	}
+	e = PermanentError{
+		Reason: "",
+	}
+	if got := e.Error(); got != "permanent error" {
+		t.Errorf("Error() = %v, want %v", got, "permanent error")
+	}
+}
+
+func TestPermanentError_Temporary(t *testing.T) {
+	got := PermanentError{}.Temporary()
+	if got != false {
+		t.Errorf("PermanentError.Temporary() = %v, want %v", got, false)
+	}
+}
+
+func TestPermanentError_Timeout(t *testing.T) {
+	got := PermanentError{}.Timeout()
+	if got != false {
+		t.Errorf("PermanentError.Timeout() = %v, want %v", got, false)
+	}
+}
+
+func TestTempError_Error(t *testing.T) {
+	e := TempError{
+		Reason: "reason",
+	}
+	if got := e.Error(); got != "temp error: reason" {
+		t.Errorf("Error() = %v, want %v", got, "temp error: reason")
+	}
+	e = TempError{
+		Reason: "",
+	}
+	if got := e.Error(); got != "temp error" {
+		t.Errorf("Error() = %v, want %v", got, "temp error")
+	}
+}
+
+func TestTempError_Temporary(t *testing.T) {
+	got := TempError{}.Temporary()
+	if got != true {
+		t.Errorf("TempError.Temporary() = %v, want %v", got, true)
+	}
+}
+
+func TestTempError_Timeout(t *testing.T) {
+	got := TempError{}.Timeout()
+	if got != false {
+		t.Errorf("TempError.Timeout() = %v, want %v", got, false)
+	}
+}
+
+func TestTimeoutError_Error(t *testing.T) {
+	e := TimeoutError{
+		Reason: "reason",
+	}
+	if got := e.Error(); got != "timeout: reason" {
+		t.Errorf("Error() = %v, want %v", got, "timeout: reason")
+	}
+	e = TimeoutError{
+		Reason: "",
+	}
+	if got := e.Error(); got != "timeout" {
+		t.Errorf("Error() = %v, want %v", got, "timeout")
+	}
+}
+
+func TestTimeoutError_Temporary(t *testing.T) {
+	got := TimeoutError{}.Temporary()
+	if got != true {
+		t.Errorf("TimeoutError.Temporary() = %v, want %v", got, true)
+	}
+}
+
+func TestTimeoutError_Timeout(t *testing.T) {
+	got := TimeoutError{}.Timeout()
+	if got != true {
+		t.Errorf("TimeoutError.Timeout() = %v, want %v", got, true)
+	}
+}

@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+// MaxSize is the maximum size of a socketmap message in bytes.
 const MaxSize = 100000
 
 const (
@@ -82,30 +83,38 @@ type TempError struct {
 }
 
 func (e TempError) Error() string {
-	if len(e.Reason) > -0 {
+	if len(e.Reason) > 0 {
 		return fmt.Sprintf("temp error: %s", e.Reason)
 	}
 	return "temp error"
 }
+
+func (TempError) Timeout() bool   { return false }
+func (TempError) Temporary() bool { return true }
 
 type TimeoutError struct {
 	Reason string
 }
 
 func (e TimeoutError) Error() string {
-	if len(e.Reason) > -0 {
+	if len(e.Reason) > 0 {
 		return fmt.Sprintf("timeout: %s", e.Reason)
 	}
 	return "timeout"
 }
+func (TimeoutError) Timeout() bool   { return true }
+func (TimeoutError) Temporary() bool { return true }
 
 type PermanentError struct {
 	Reason string
 }
 
 func (e PermanentError) Error() string {
-	if len(e.Reason) > -0 {
+	if len(e.Reason) > 0 {
 		return fmt.Sprintf("permanent error: %s", e.Reason)
 	}
 	return "permanent error"
 }
+
+func (PermanentError) Timeout() bool   { return false }
+func (PermanentError) Temporary() bool { return false }

@@ -82,7 +82,7 @@ func handle(conn net.Conn, handler Handler) error {
 			if found {
 				err = write(conn, []byte("OK "), []byte(result))
 			} else {
-				err = write(conn, []byte("NOTFOUND"))
+				err = write(conn, []byte("NOTFOUND "))
 			}
 		}
 		if err != nil {
